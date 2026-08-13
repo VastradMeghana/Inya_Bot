@@ -1,0 +1,269 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "NBFCCollectionsBorrowerDataModel",
+  "description": "Comprehensive three-phase borrower data schema for enterprise voice collection bot on Inya.",
+  "type": "object",
+  "properties": {
+    "pre_call_context": {
+      "type": "object",
+      "description": "Data populated from NBFC LMS/CRM prior to triggering the outbound call.",
+      "required": [
+        "call_id",
+        "borrower_id",
+        "borrower_name",
+        "loan_id",
+        "emi_amount",
+        "due_date",
+        "days_past_due",
+        "phone_number",
+        "preferred_language",
+        "previous_attempts",
+        "last_contact_outcome",
+        "minimum_partial_amount_allowed",
+        "dnc_status",
+        "max_retry_limit"
+      ],
+      "properties": {
+        "call_id": {
+          "type": "string",
+          "example": "CALL-20260813-89012"
+        },
+        "borrower_id": {
+          "type": "string",
+          "example": "BRW-90412"
+        },
+        "borrower_name": {
+          "type": "string",
+          "example": "Rahul Sharma"
+        },
+        "loan_id": {
+          "type": "string",
+          "example": "LN-1023489"
+        },
+        "emi_amount": {
+          "type": "number",
+          "example": 8500
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date",
+          "example": "2026-08-10"
+        },
+        "days_past_due": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30,
+          "example": 3
+        },
+        "phone_number": {
+          "type": "string",
+          "pattern": "^\\+91[6-9]\\d{9}$",
+          "example": "+919876543210"
+        },
+        "preferred_language": {
+          "type": "string",
+          "enum": ["English", "Hindi", "Tamil", "Telugu", "Kannada", "Marathi"],
+          "example": "English"
+        },
+        "previous_attempts": {
+          "type": "integer",
+          "example": 1
+        },
+        "last_contact_outcome": {
+          "type": "string",
+          "example": "NO_ANSWER"
+        },
+        "minimum_partial_amount_allowed": {
+          "type": "number",
+          "description": "Lowest acceptable partial EMI payment threshold (e.g. 50%).",
+          "example": 4250
+        },
+        "dnc_status": {
+          "type": "boolean",
+          "example": false
+        },
+        "max_retry_limit": {
+          "type": "integer",
+          "example": 3
+        }
+      }
+    },
+    "mid_call_session_state": {
+      "type": "object",
+      "description": "Transient dynamic state updated in real-time by Inya agent and middleware during the call.",
+      "properties": {
+        "current_state": {
+          "type": "string",
+          "enum": [
+            "INITIATED",
+            "VERIFY_IDENTITY",
+            "CONSENT_AVAILABILITY",
+            "DISCLOSE_OVERDUE",
+            "HANDLE_RESPONSE",
+            "CONFIRM_PAYMENT_DETAILS",
+            "PROMPT_SPECIFIC_DATE",
+            "EXPLORE_PARTIAL_PAYMENT",
+            "CAPTURE_PAYMENT_DETAILS",
+            "CAPTURE_CALLBACK_SLOT",
+            "HANDLE_THIRD_PARTY",
+            "TRANSFER_HUMAN",
+            "FALLBACK_RECOVERY",
+            "COMPLETED"
+          ],
+          "example": "PROMPT_SPECIFIC_DATE"
+        },
+        "detected_language": {
+          "type": "string",
+          "example": "English"
+        },
+        "identity_verified": {
+          "type": "boolean",
+          "example": true
+        },
+        "silence_counter": {
+          "type": "integer",
+          "example": 0
+        },
+        "unclear_audio_counter": {
+          "type": "integer",
+          "example": 0
+        },
+        "extracted_date_raw": {
+          "type": ["string", "null"],
+          "example": "this Friday"
+        },
+        "extracted_date_normalized": {
+          "type": ["string", "null"],
+          "format": "date",
+          "example": "2026-08-15"
+        },
+        "extracted_amount": {
+          "type": ["number", "null"],
+          "example": 8500
+        },
+        "extracted_payment_mode": {
+          "type": ["string", "null"],
+          "example": "UPI"
+        },
+        "claimed_transaction_ref": {
+          "type": ["string", "null"],
+          "example": "UPI/6789012345/PAY"
+        },
+        "callback_timestamp": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "example": "2026-08-14T17:00:00+05:30"
+        },
+        "escalation_flag": {
+          "type": "boolean",
+          "example": false
+        },
+        "escalation_reason": {
+          "type": ["string", "null"],
+          "example": null
+        }
+      }
+    },
+    "post_call_payload": {
+      "type": "object",
+      "description": "Structured payload written back to CRM/LMS via POST /calls/{id}/outcome upon call termination.",
+      "required": [
+        "call_id",
+        "borrower_id",
+        "loan_id",
+        "call_duration_seconds",
+        "call_status",
+        "primary_intent",
+        "final_outcome_code",
+        "commitment_amount",
+        "commitment_date",
+        "callback_required",
+        "escalation_required",
+        "dnc_flag",
+        "conversation_summary",
+        "confidence_score",
+        "crm_sync_status"
+      ],
+      "properties": {
+        "call_id": {
+          "type": "string",
+          "example": "CALL-20260813-89012"
+        },
+        "borrower_id": {
+          "type": "string",
+          "example": "BRW-90412"
+        },
+        "loan_id": {
+          "type": "string",
+          "example": "LN-1023489"
+        },
+        "call_duration_seconds": {
+          "type": "integer",
+          "example": 68
+        },
+        "call_status": {
+          "type": "string",
+          "enum": ["CONNECTED", "NO_ANSWER", "BUSY", "FAILED", "DROPPED"],
+          "example": "CONNECTED"
+        },
+        "primary_intent": {
+          "type": "string",
+          "example": "PAYMENT_LATER"
+        },
+        "final_outcome_code": {
+          "type": "string",
+          "example": "PAYMENT_COMMITMENT_FUTURE"
+        },
+        "commitment_amount": {
+          "type": ["number", "null"],
+          "example": 8500
+        },
+        "commitment_date": {
+          "type": ["string", "null"],
+          "format": "date",
+          "example": "2026-08-15"
+        },
+        "callback_required": {
+          "type": "boolean",
+          "example": false
+        },
+        "callback_scheduled_time": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "example": null
+        },
+        "escalation_required": {
+          "type": "boolean",
+          "example": false
+        },
+        "escalation_reason": {
+          "type": ["string", "null"],
+          "example": null
+        },
+        "dnc_flag": {
+          "type": "boolean",
+          "example": false
+        },
+        "language_used": {
+          "type": "string",
+          "example": "English"
+        },
+        "conversation_summary": {
+          "type": "string",
+          "example": "Verified borrower identity. Informed of overdue EMI ₹8,500. Borrower promised to pay full amount on August 15, 2026 via UPI link."
+        },
+        "confidence_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "example": 0.96
+        },
+        "crm_sync_status": {
+          "type": "string",
+          "enum": ["PENDING", "SUCCESS", "FAILED_RETRYING"],
+          "example": "PENDING"
+        }
+      }
+    }
+  }
+}

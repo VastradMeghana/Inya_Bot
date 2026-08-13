@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VoiceCollectionsCallOutcomeSchema",
+  "type": "object",
+  "required": [
+    "call_id",
+    "borrower_id",
+    "loan_id",
+    "call_status",
+    "primary_intent",
+    "final_outcome_code",
+    "commitment_amount",
+    "commitment_date",
+    "callback_required",
+    "escalation_required",
+    "language_used",
+    "conversation_summary",
+    "confidence_score"
+  ],
+  "properties": {
+    "call_id": {
+      "type": "string",
+      "example": "CALL-20260813-89012"
+    },
+    "borrower_id": {
+      "type": "string",
+      "example": "BRW-90412"
+    },
+    "loan_id": {
+      "type": "string",
+      "example": "LN-1023489"
+    },
+    "call_status": {
+      "type": "string",
+      "enum": ["CONNECTED", "NO_ANSWER", "BUSY", "FAILED", "DROPPED"],
+      "example": "CONNECTED"
+    },
+    "primary_intent": {
+      "type": "string",
+      "example": "PAYMENT_LATER"
+    },
+    "final_outcome_code": {
+      "type": "string",
+      "enum": [
+        "PAYMENT_COMMITMENT_TODAY",
+        "PAYMENT_COMMITMENT_FUTURE",
+        "PARTIAL_PAYMENT_COMMITMENT",
+        "CLAIMED_ALREADY_PAID",
+        "FINANCIAL_HARDSHIP",
+        "CALLBACK_SCHEDULED",
+        "WRONG_NUMBER",
+        "HUMAN_AGENT_REQUESTED",
+        "LOAN_DISOWNED_DISPUTE",
+        "ACCOUNT_DISPUTE_ESCALATED",
+        "REFUSED_TO_PAY",
+        "DNC_REQUESTED",
+        "THIRD_PARTY_CONTACT",
+        "BORROWER_UNAVAILABLE",
+        "NO_CONTACT_SILENCE",
+        "UNCLEAR_AUDIO_ESCALATED",
+        "SYSTEM_ERROR_ESCALATED"
+      ],
+      "example": "PAYMENT_COMMITMENT_FUTURE"
+    },
+    "commitment_amount": {
+      "type": ["number", "null"],
+      "example": 8500
+    },
+    "commitment_date": {
+      "type": ["string", "null"],
+      "format": "date",
+      "example": "2026-08-15"
+    },
+    "payment_mode": {
+      "type": ["string", "null"],
+      "example": "UPI"
+    },
+    "claimed_transaction_ref": {
+      "type": ["string", "null"],
+      "example": null
+    },
+    "callback_required": {
+      "type": "boolean",
+      "example": false
+    },
+    "callback_scheduled_time": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "example": null
+    },
+    "escalation_required": {
+      "type": "boolean",
+      "example": false
+    },
+    "escalation_reason": {
+      "type": ["string", "null"],
+      "example": null
+    },
+    "dnc_flag": {
+      "type": "boolean",
+      "example": false
+    },
+    "language_used": {
+      "type": "string",
+      "example": "English"
+    },
+    "conversation_summary": {
+      "type": "string",
+      "example": "Verified identity. Borrower promised full payment of ₹8,500 on August 15 via SMS UPI link."
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "example": 0.96
+    }
+  }
+}
