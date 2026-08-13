@@ -26,7 +26,7 @@ st.markdown("""
     .tool-badge { background-color: rgba(16, 185, 129, 0.15); color: #34d399; padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.85rem; }
     .esc-badge { background-color: rgba(239, 68, 68, 0.15); color: #f87171; padding: 6px 12px; border-radius: 6px; border: 1px solid rgba(239, 68, 68, 0.3); font-size: 0.85rem; }
 </style>
-""", unsafe_allow_html=true)
+""", unsafe_allow_html=True)
 
 # --- Scenario Definitions ---
 DEMO_SCENARIOS = {
