@@ -49,8 +49,6 @@ class OutcomeRequest(BaseModel):
     call_id: str = Field(..., example="CALL-20260813-89012")
     borrower_id: str = Field(..., example="BRW-90412")
     loan_id: str = Field(..., example="LN-1023489")
-    call_duration_seconds: int = Field(..., example=68)
-    call_status: str = Field(..., example="CONNECTED")
     primary_intent: str = Field(..., example="PAYMENT_LATER")
     final_outcome_code: str = Field(..., example="PAYMENT_COMMITMENT_FUTURE")
     commitment_amount: Optional[float] = Field(default=None, example=8500.0)
@@ -80,9 +78,6 @@ class EscalationRequest(BaseModel):
     priority: str = "HIGH"
     escalation_type: str
     reason: str
-    agent_transfer_attempted: bool = False
-
-
 # --- Middleware Date Normalizer Engine ---
 
 def parse_relative_date(raw_utterance: str, base_date: datetime = None) -> str:
